@@ -1,10 +1,33 @@
+import { icons } from "@/constants/icons";
+import { images } from "@/constants/images";
 import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import React from "react";
+import { Text, View, Image, ScrollView } from "react-native";
+import { SearchBar } from "react-native-screens";
 
 export default function Index() {
   return (
-    <View className="flex-1 justify-center items-center">
-      <Text className="text-3xl text-dark-100">Welcome to my movie app</Text>
+    <View
+    className="flex-1 bg-primary"
+    >
+      <Image
+      source = {images.bg}
+      className="absolute w-full z-0"
+      />
+      <ScrollView 
+      className="flex-1 px-5"
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{minHeight: '100%', paddingBottom:10}}
+      >
+        <Image
+        source={icons.logo}
+        className="mx-auto mt-20"
+        />
+        <View className="flex-1 mt-5">
+        <SearchBar/>
+        </View>
+      </ScrollView>
+      
     </View>
   );
 }
