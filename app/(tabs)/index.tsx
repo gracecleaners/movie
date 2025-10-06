@@ -1,11 +1,14 @@
+import SearchBar from "@/components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import { Link } from "expo-router";
 import React from "react";
 import { Text, View, Image, ScrollView } from "react-native";
-import { SearchBar } from "react-native-screens";
+import { useRouter } from "expo-router";
 
 export default function Index() {
+
+  const router = useRouter();
   return (
     <View
     className="flex-1 bg-primary"
@@ -24,7 +27,10 @@ export default function Index() {
         className="mx-auto mt-20"
         />
         <View className="flex-1 mt-5">
-        <SearchBar/>
+        <SearchBar
+        onPress= {() => router.push('/search')}
+        placeholder = 'Search for a movie'
+        />
         </View>
       </ScrollView>
       
