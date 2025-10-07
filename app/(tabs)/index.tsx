@@ -1,14 +1,19 @@
 import SearchBar from "@/components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
-import { Link } from "expo-router";
-import React from "react";
-import { Text, View, Image, ScrollView } from "react-native";
+import { fetchMovie } from "@/services/api";
+import useFetch from "@/services/useFetch";
 import { useRouter } from "expo-router";
+import React from "react";
+import { ActivityIndicator, FlatList, Image, ScrollView, Text, View } from "react-native";
 
 export default function Index() {
 
   const router = useRouter();
+
+  const {data:movies, loading: moviesLoading, error: moviesError} = useFetch(()=> fetchMovie({
+    query: ''
+  }))
   return (
     <View
     className="flex-1 bg-primary"
@@ -26,12 +31,37 @@ export default function Index() {
         source={icons.logo}
         className="mx-auto mt-20"
         />
-        <View className="flex-1 mt-5">
+
+        {moviesLoading? (
+          <ActivityIndicator
+          size='large'
+          color='#0000ff'
+          className="mt-10 self-center"
+          />
+        ): moviesError?(
+          <Text>Error: {moviesError?.message}</Text>
+        ): (
+          <View className="flex-1 mt-5">
         <SearchBar
         onPress= {() => router.push('/search')}
         placeholder = 'Search for a movie'
         />
+        <>
+        <Text
+        className="text-lg text-white font-bold mt-5 mb-3"
+        >Latest Movies</Text>
+        <FlatList
+        data={movies}
+        renderItem={({item}) => (
+          <Text className="text-white text-sm">{item.title}</Text>
+        )}
+        keyExtractor={(item) => item.id.toString()}
+        numColumns={3}
+        />
+        </>
         </View>
+        )}
+        
       </ScrollView>
       
     </View>
